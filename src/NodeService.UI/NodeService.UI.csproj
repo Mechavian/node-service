@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
@@ -52,6 +56,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\LoggingEventRow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\NodeServiceStatus.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -67,8 +75,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ViewModels\DelegateCommand.cs" />
+    <Compile Include="ViewModels\LoggingEventViewModel.cs" />
     <Compile Include="ViewModels\NodeServiceWindowViewModel.cs" />
     <Compile Include="NodeServiceWindowController.cs" />
+    <Compile Include="Views\LoggingEventRow.xaml.cs">
+      <DependentUpon>LoggingEventRow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\NodeServiceStatus.xaml.cs">
       <DependentUpon>NodeServiceStatus.xaml</DependentUpon>
     </Compile>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -7,6 +8,9 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using log4net;
+using log4net.Appender;
+using log4net.Core;
 using Mechavian.NodeService.UI.Annotations;
 
 namespace Mechavian.NodeService.UI.ViewModels
@@ -30,6 +34,7 @@ namespace Mechavian.NodeService.UI.ViewModels
         private string _displayName;
         private Color _statusColor = Colors.DarkGray;
         private string _statusText = "UNKNOWN";
+        private readonly ObservableCollection<LoggingEventViewModel> _loggingEvents = new ObservableCollection<LoggingEventViewModel>();
 
 
         public NodeServiceViewModel([NotNull] NodeServiceBase service, string[] args)
@@ -48,6 +53,19 @@ namespace Mechavian.NodeService.UI.ViewModels
             _uiDispatcher = Dispatcher.CurrentDispatcher;
 
             UpdateStatusProperties();
+            AttachAppender(service.Log);
+        }
+
+        private void AttachAppender(ILog log)
+        {
+            var logger = log.Logger as log4net.Repository.Hierarchy.Logger;
+            if (logger != null)
+            {
+                var appender = new NodeServiceLogAppender();
+                appender.LogAppended += (o, e) => _uiDispatcher.BeginInvoke(new Action(() => LoggingEvents.Add(new LoggingEventViewModel(e))));
+
+                logger.AddAppender(appender);
+            }
         }
 
         public NodeServiceViewModel()
@@ -85,6 +103,11 @@ namespace Mechavian.NodeService.UI.ViewModels
                 _statusText = value;
                 OnPropertyChanged();
             }
+        }
+
+        public ObservableCollection<LoggingEventViewModel> LoggingEvents
+        {
+            get { return _loggingEvents; }
         }
 
         public ICommand StartCommand
@@ -177,6 +200,20 @@ namespace Mechavian.NodeService.UI.ViewModels
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+    public class NodeServiceLogAppender : AppenderSkeleton
+    {
+        public event Action<NodeServiceLogAppender, LoggingEvent> LogAppended;
+
+        protected override void Append(LoggingEvent loggingEvent)
+        {
+            var handler = LogAppended;
+            if (handler != null)
+            {
+                handler(this, loggingEvent);
+            }
         }
     }
 }

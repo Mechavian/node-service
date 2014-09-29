@@ -1,4 +1,6 @@
-﻿using Mechavian.NodeService;
+﻿using System;
+using log4net.Config;
+using Mechavian.NodeService;
 
 namespace NodeService.TestService
 {
@@ -9,6 +11,7 @@ namespace NodeService.TestService
         /// </summary>
         static void Main()
         {
+            XmlConfigurator.Configure();
             NodeServiceRunner.Run<MyTestService>(10);
         }
     }

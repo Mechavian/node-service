@@ -6,7 +6,7 @@ using System;
 
 namespace NodeService.TestService
 {
-    public partial class MyTestService : NodeServiceBase
+    public class MyTestService : NodeServiceBase
     {
         static Random rng = new Random();
 

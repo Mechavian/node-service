@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:Mechavian.NodeService.UI.ViewModels"
         xmlns:views="clr-namespace:Mechavian.NodeService.UI.Views"
-        Title="NodeServiceWindow" Height="300" Width="300">
+        Title="NodeServiceWindow" 
+        Height="600" 
+        Width="500">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -40,8 +42,14 @@
             </StackPanel>
         </Border>
         
-        <ListBox Grid.Row="1"
+        <ListBox x:Name="ServiceList"  
+                 Grid.Row="1"
+                 MaxHeight="200"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
                  HorizontalContentAlignment="Stretch"
+                 VerticalAlignment="Stretch"
+                 SelectionMode="Single"
                  ItemsSource="{Binding Services}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -50,6 +58,17 @@
             </ListBox.ItemTemplate>
         </ListBox>
         
-        <ListBox Grid.Row="2"></ListBox>
+        <ItemsControl Grid.Row="2"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      HorizontalContentAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      ItemsSource="{Binding Path=SelectedItem.LoggingEvents, ElementName=ServiceList}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <views:LoggingEventRow />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </Window>
