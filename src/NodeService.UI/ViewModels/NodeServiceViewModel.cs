@@ -11,6 +11,7 @@ using System.Windows.Threading;
 using log4net;
 using log4net.Appender;
 using log4net.Core;
+using log4net.Repository.Hierarchy;
 using Mechavian.NodeService.UI.Annotations;
 
 namespace Mechavian.NodeService.UI.ViewModels
@@ -26,6 +27,7 @@ namespace Mechavian.NodeService.UI.ViewModels
         };
 
         private readonly string[] _args;
+        private readonly ObservableCollection<LoggingEventViewModel> _loggingEvents = new ObservableCollection<LoggingEventViewModel>();
         private readonly NodeServiceBase _service;
         private readonly Dispatcher _serviceDispatcher;
         private readonly DelegateCommand _startCommand;
@@ -34,7 +36,6 @@ namespace Mechavian.NodeService.UI.ViewModels
         private string _displayName;
         private Color _statusColor = Colors.DarkGray;
         private string _statusText = "UNKNOWN";
-        private readonly ObservableCollection<LoggingEventViewModel> _loggingEvents = new ObservableCollection<LoggingEventViewModel>();
 
 
         public NodeServiceViewModel([NotNull] NodeServiceBase service, string[] args)
@@ -54,18 +55,6 @@ namespace Mechavian.NodeService.UI.ViewModels
 
             UpdateStatusProperties();
             AttachAppender(service.Log);
-        }
-
-        private void AttachAppender(ILog log)
-        {
-            var logger = log.Logger as log4net.Repository.Hierarchy.Logger;
-            if (logger != null)
-            {
-                var appender = new NodeServiceLogAppender();
-                appender.LogAppended += (o, e) => _uiDispatcher.BeginInvoke(new Action(() => LoggingEvents.Add(new LoggingEventViewModel(e))));
-
-                logger.AddAppender(appender);
-            }
         }
 
         public NodeServiceViewModel()
@@ -124,11 +113,23 @@ namespace Mechavian.NodeService.UI.ViewModels
         {
             if (_serviceDispatcher != null)
             {
-                _serviceDispatcher.InvokeShutdown();                
+                _serviceDispatcher.InvokeShutdown();
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void AttachAppender(ILog log)
+        {
+            var logger = log.Logger as Logger;
+            if (logger != null)
+            {
+                var appender = new NodeServiceLogAppender();
+                appender.LogAppended += (o, e) => _uiDispatcher.BeginInvoke(new Action(() => LoggingEvents.Add(new LoggingEventViewModel(e))));
+
+                logger.AddAppender(appender);
+            }
+        }
 
         private Dispatcher CreateDispatcher()
         {

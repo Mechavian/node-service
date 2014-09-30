@@ -6,18 +6,18 @@ namespace Mechavian.NodeService.UI.ViewModels
 {
     public class DelegateCommand : ICommand
     {
-        public event EventHandler CanExecuteChanged;
-
-        private readonly Action<object> _execute;
         private readonly Func<object, bool> _canExecute;
+        private readonly Action<object> _execute;
 
         public DelegateCommand([NotNull] Action<object> execute, Func<object, bool> canExecute = null)
         {
             if (execute == null) throw new ArgumentNullException("execute");
 
             _execute = execute;
-            _canExecute = canExecute ?? new Func<object,bool>((o) => true);
+            _canExecute = canExecute ?? (o => true);
         }
+
+        public event EventHandler CanExecuteChanged;
 
         public bool CanExecute(object parameter)
         {
@@ -31,7 +31,7 @@ namespace Mechavian.NodeService.UI.ViewModels
 
         public void RaiseCanExecuteChanged()
         {
-            var handler = CanExecuteChanged;
+            EventHandler handler = CanExecuteChanged;
             if (handler != null)
             {
                 handler(this, EventArgs.Empty);
