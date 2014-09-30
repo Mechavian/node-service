@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Mechavian.NodeService")]
-[assembly: AssemblyProduct("node-service")]
-[assembly: AssemblyCompany("Mechavian Inc.")]
-[assembly: AssemblyCopyright("Copyright ©  2014")]
+[assembly: AssemblyTitle("NodeService.Test")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("NodeService.Test")]
+[assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,8 +20,17 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("1f6d64ce-24cb-427b-b055-22480fe62ac5")]
+[assembly: Guid("0fd2b762-3514-46b1-88e3-1b5a68d181c8")]
 
-[assembly: InternalsVisibleTo("Mechavian.NodeService.UI")]
-[assembly: InternalsVisibleTo("NodeService.Test")]
-[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Build and Revision Numbers 
+// by using the '*' as shown below:
+// [assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

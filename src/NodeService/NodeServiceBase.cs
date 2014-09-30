@@ -1,19 +1,9 @@
 ﻿using System;
-using System.ComponentModel;
 using System.ServiceProcess;
 using log4net;
 
 namespace Mechavian.NodeService
 {
-    public enum ServiceStatus
-    {
-        Starting,
-        Running,
-        Stopping,
-        Stopped,
-    }
-
-    [DesignerCategory("")]
     public abstract class NodeServiceBase : ServiceBase
     {
         private readonly object _lockObj = new object();

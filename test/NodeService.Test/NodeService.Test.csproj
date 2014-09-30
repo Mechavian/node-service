@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{065C9B18-250A-460D-BD4C-B4F5882AD020}</ProjectGuid>
+    <ProjectGuid>{78035F67-18C0-498D-91AA-10F013CE0259}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mechavian.NodeService</RootNamespace>
-    <AssemblyName>Mechavian.NodeService</AssemblyName>
+    <RootNamespace>NodeService.Test</RootNamespace>
+    <AssemblyName>NodeService.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>c350f4e4</NuGetPackageImportStamp>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -33,12 +32,32 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="log4net">
       <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.core">
+      <HintPath>..\..\packages\NUnitTestAdapter.1.2\lib\nunit.core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="nunit.core.interfaces">
+      <HintPath>..\..\packages\NUnitTestAdapter.1.2\lib\nunit.core.interfaces.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.util">
+      <HintPath>..\..\packages\NUnitTestAdapter.1.2\lib\nunit.util.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="NUnit.VisualStudio.TestAdapter">
+      <HintPath>..\..\packages\NUnitTestAdapter.1.2\lib\NUnit.VisualStudio.TestAdapter.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
@@ -48,44 +67,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\ServiceContainerExtensions.cs" />
-    <Compile Include="Extensions\ServiceProviderExtensions.cs" />
-    <Compile Include="Services\Impl\EnvironmentService.cs" />
-    <Compile Include="Services\INodeServiceFactory.cs" />
-    <Compile Include="NodeServiceBase.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="NodeServiceRunner.cs" />
-    <Compile Include="Services\Impl\NodeServiceFactory.cs" />
-    <Compile Include="Services\Impl\ServiceBaseService.cs" />
-    <Compile Include="Services\Impl\UIControllerFactory.cs" />
-    <Compile Include="UINodeServiceRunner.cs" />
+    <Compile Include="NodeServiceBaseTests.cs" />
+    <Compile Include="NodeServiceFactoryTests.cs" />
+    <Compile Include="UINodeServiceRunnerTests.cs" />
+    <Compile Include="NodeServiceRunnerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Version.cs">
-      <IsVersionInfo>True</IsVersionInfo>
-      <Major>1</Major>
-      <Minor>0</Minor>
-      <Namespace>$(RootNamespace)</Namespace>
-    </Compile>
-    <Compile Include="ServiceStatus.cs" />
-    <Compile Include="Services\IEnvironmentService.cs" />
-    <Compile Include="Services\IServiceBaseService.cs" />
-    <Compile Include="Services\IUIControllerFactory.cs" />
-    <Compile Include="UI\IUiController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\NodeService\NodeService.csproj">
+      <Project>{065C9B18-250A-460D-BD4C-B4F5882AD020}</Project>
+      <Name>NodeService</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\..\packages\time-based-version.1.1.0.26862\build\time-based-version.targets" Condition="Exists('..\..\packages\time-based-version.1.1.0.26862\build\time-based-version.targets')" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\time-based-version.1.1.0.26862\build\time-based-version.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\time-based-version.1.1.0.26862\build\time-based-version.targets'))" />
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

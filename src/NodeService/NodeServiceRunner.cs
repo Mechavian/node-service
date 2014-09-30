@@ -1,15 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition.Hosting;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.ServiceProcess;
 using System.Threading;
-using Mechavian.NodeService.UI;
+using System.Threading.Tasks;
+using Mechavian.NodeService.Services;
+using Mechavian.NodeService.Services.Impl;
+using Mechavian.NodeService.Stubs;
 
 namespace Mechavian.NodeService
 {
     public static class NodeServiceRunner
     {
+        private static IServiceProvider _services;
+
+        internal static IServiceProvider Services
+        {
+            get
+            {
+                return _services ?? (_services = CreateServices());
+            }
+        }
+
         public static void Run<T>(int instances = 1)
             where T : NodeServiceBase, new()
         {
@@ -19,107 +31,54 @@ namespace Mechavian.NodeService
         public static void Run<T>(Func<T> factory, int instances = 1)
             where T : NodeServiceBase
         {
-            if (Environment.UserInteractive)
+            var serviceContainer = new ServiceContainer(Services);
+            serviceContainer.AddService<INodeServiceFactory>(sp => new NodeServiceFactory(factory));
+
+            RunImpl(serviceContainer, instances);
+        }
+
+        internal static void RunImpl(IServiceProvider serviceProvider, int instances)
+        {
+            var environmentService = serviceProvider.GetService<IEnvironmentService>();
+            var nodeServiceFactory = serviceProvider.GetService<INodeServiceFactory>();
+
+            if (environmentService.IsUserInteractiveMode())
             {
+                var tcs = new TaskCompletionSource<int>();
                 var thread = new Thread(() =>
                 {
-                    var runner = new NodeServiceRunner<T>(factory, instances);
-                    runner.RunWithUI();
+                    try
+                    {
+                        var runner = new UINodeServiceRunner(serviceProvider);
+                        runner.RunWithUI(nodeServiceFactory.CreateInstances(instances));
+                        tcs.SetResult(0);
+                    }
+                    catch (Exception ex)
+                    {
+                        tcs.SetException(ex);
+                    }
                 });
                 thread.SetApartmentState(ApartmentState.STA);
-
+                
                 thread.Start();
-                thread.Join();
+                tcs.Task.Wait();
             }
             else
             {
-                var runner = new NodeServiceRunner<T>(factory, instances);
-                ServiceBase[] services = runner.CreateInstances();
-                ServiceBase.Run(services);
-            }
-        }
-    }
+                ServiceBase[] services = nodeServiceFactory.CreateInstances(instances).Cast<ServiceBase>().ToArray();
 
-    internal class NodeServiceRunner<T>
-        where T : NodeServiceBase
-    {
-        private readonly int _instances;
-        private readonly Func<T> _factory;
-
-        internal NodeServiceRunner(Func<T> factory, int instances)
-        {
-            if (factory == null) throw new ArgumentNullException("factory");
-            if (instances <= 0) throw new ArgumentOutOfRangeException("instances", instances, "Instances must be greater than 0");
-
-            _factory = factory;
-            _instances = instances;
-        }
-
-
-        internal void RunWithUI()
-        {
-            var services = CreateInstances().Cast<T>().ToArray();
-            var toShutdown = new Queue<T>(services);
-
-            var catalog = new AssemblyCatalog("Mechavian.NodeService.UI.dll");
-            var container = new CompositionContainer(catalog);
-            var controller = container.GetExportedValue<IUIController>();
-
-            try
-            {
-                controller.ShowWindow(services, Environment.GetCommandLineArgs());
-            }
-            finally
-            {
-                ShutdownServices(toShutdown);
+                var serviceBaseService = serviceProvider.GetService<IServiceBaseService>();
+                serviceBaseService.Run(services);
             }
         }
 
-        private static void ShutdownServices(Queue<T> toShutdown)
+        private static IServiceProvider CreateServices()
         {
-            while (toShutdown.Count != 0)
-            {
-                var service = toShutdown.Dequeue();
-
-                service.StopImpl();
-                service.Dispose();
-            }
-        }
-
-        internal ServiceBase[] CreateInstances() 
-        {
-            var services = new List<ServiceBase>();
-            for (int i = 0; i < _instances; i++)
-            {
-                var service = _factory();
-                if (service == null)
-                {
-                    throw new InvalidOperationException("Service Factory cannot return null");
-                }
-
-                UpdateServiceName(service, i);
-
-                service.Initialize();
-                services.Add(service);
-            }
-
-            return services.ToArray();
-        }
-
-        private void UpdateServiceName(T service, int index)
-        {
-            var serviceName = service.ServiceName;
-            if (string.IsNullOrEmpty(serviceName))
-            {
-                serviceName = service.GetType().Name;
-            }
-
-            if (_instances > 1)
-            {
-                serviceName = string.Format("{0} ({1})", serviceName, index + 1);
-            }
-
-            service.ServiceName = serviceName;
+            var serviceContainer = new ServiceContainer();
+            serviceContainer.AddService<IEnvironmentService>(sp => new EnvironmentService());
+            serviceContainer.AddService<IServiceBaseService>(sp => new ServiceBaseService());
+            serviceContainer.AddService<IUIControllerFactory>(sp => new UIControllerFactory());
+            return serviceContainer;
         }
     }
 }
