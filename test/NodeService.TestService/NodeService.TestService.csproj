@@ -38,13 +38,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Mechavian.NodeService, Version=1.0.50930.1148, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Mechavian.NodeService, Version=1.0.50930.1127, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\node-service.1.0.50930.1148\lib\net40\Mechavian.NodeService.dll</HintPath>
+      <HintPath>..\..\packages\node-service.1.0.50930.1127\lib\net40\Mechavian.NodeService.dll</HintPath>
     </Reference>
-    <Reference Include="Mechavian.NodeService.UI, Version=1.0.50930.1148, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Mechavian.NodeService.UI, Version=1.0.50930.1127, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\node-service.1.0.50930.1148\lib\net40\Mechavian.NodeService.UI.dll</HintPath>
+      <HintPath>..\..\packages\node-service.1.0.50930.1127\lib\net40\Mechavian.NodeService.UI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
