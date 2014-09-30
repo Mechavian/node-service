@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="ViewModels\DelegateCommand.cs" />
     <Compile Include="ViewModels\LoggingEventViewModel.cs" />
+    <Compile Include="ViewModels\NodeServiceLogAppender.cs" />
     <Compile Include="ViewModels\NodeServiceWindowViewModel.cs" />
     <Compile Include="NodeServiceWindowController.cs" />
     <Compile Include="Views\LoggingEventRow.xaml.cs">
@@ -88,7 +89,6 @@
       <DependentUpon>NodeServiceWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\NodeServiceViewModel.cs" />
-    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Version.cs">
       <IsVersionInfo>True</IsVersionInfo>

@@ -1,4 +1,4 @@
-﻿namespace Mechavian.NodeService.Stubs
+﻿namespace Mechavian.NodeService.Services
 {
     internal interface IEnvironmentService
     {

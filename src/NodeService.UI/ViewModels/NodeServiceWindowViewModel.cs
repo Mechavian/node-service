@@ -6,11 +6,10 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Mechavian.NodeService.UI.Annotations;
 
 namespace Mechavian.NodeService.UI.ViewModels
 {
-    public class NodeServiceWindowViewModel : INotifyPropertyChanged, IDisposable
+    internal class NodeServiceWindowViewModel : INotifyPropertyChanged, IDisposable
     {
         private readonly DelegateCommand _startAllCommand;
         private readonly DelegateCommand _stopAllCommand;
@@ -57,7 +56,6 @@ namespace Mechavian.NodeService.UI.ViewModels
             return Task.WhenAll(tasks);
         }
 
-        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChangedEventHandler handler = PropertyChanged;

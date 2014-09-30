@@ -5,7 +5,6 @@ using System.ServiceProcess;
 using Mechavian.NodeService;
 using Mechavian.NodeService.Services;
 using Mechavian.NodeService.Services.Impl;
-using Mechavian.NodeService.Stubs;
 using Mechavian.NodeService.UI;
 using Moq;
 using NUnit.Framework;

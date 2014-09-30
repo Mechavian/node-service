@@ -4,7 +4,7 @@ using log4net.Core;
 
 namespace Mechavian.NodeService.UI.ViewModels
 {
-    public class LoggingEventViewModel
+    internal class LoggingEventViewModel
     {
         public LoggingEventViewModel(LoggingEvent loggingEvent)
         {

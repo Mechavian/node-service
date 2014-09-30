@@ -9,14 +9,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using log4net;
-using log4net.Appender;
-using log4net.Core;
 using log4net.Repository.Hierarchy;
-using Mechavian.NodeService.UI.Annotations;
 
 namespace Mechavian.NodeService.UI.ViewModels
 {
-    public class NodeServiceViewModel : INotifyPropertyChanged, IDisposable
+    internal class NodeServiceViewModel : INotifyPropertyChanged, IDisposable
     {
         private static readonly Dictionary<ServiceStatus, Color> StatusIcon = new Dictionary<ServiceStatus, Color>
         {
@@ -38,7 +35,7 @@ namespace Mechavian.NodeService.UI.ViewModels
         private string _statusText = "UNKNOWN";
 
 
-        public NodeServiceViewModel([NotNull] NodeServiceBase service, string[] args)
+        public NodeServiceViewModel( NodeServiceBase service, string[] args)
         {
             if (service == null) throw new ArgumentNullException("service");
 
@@ -196,25 +193,10 @@ namespace Mechavian.NodeService.UI.ViewModels
             return _service.Status == ServiceStatus.Running;
         }
 
-        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
-
-    public class NodeServiceLogAppender : AppenderSkeleton
-    {
-        public event Action<NodeServiceLogAppender, LoggingEvent> LogAppended;
-
-        protected override void Append(LoggingEvent loggingEvent)
-        {
-            var handler = LogAppended;
-            if (handler != null)
-            {
-                handler(this, loggingEvent);
-            }
         }
     }
 }

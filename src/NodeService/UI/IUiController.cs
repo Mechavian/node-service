@@ -2,7 +2,7 @@
 
 namespace Mechavian.NodeService.UI
 {
-    public interface IUIController
+    internal interface IUIController
     {
         void ShowWindow(IEnumerable<NodeServiceBase> services, string[] args);
     }

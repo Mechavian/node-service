@@ -2,7 +2,6 @@
 using System.ComponentModel.Design;
 using Mechavian.NodeService;
 using Mechavian.NodeService.Services;
-using Mechavian.NodeService.Stubs;
 using Mechavian.NodeService.UI;
 using Moq;
 using Moq.Protected;
