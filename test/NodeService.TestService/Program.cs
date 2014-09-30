@@ -1,5 +1,4 @@
-﻿using System;
-using log4net.Config;
+﻿using log4net.Config;
 using Mechavian.NodeService;
 
 namespace NodeService.TestService

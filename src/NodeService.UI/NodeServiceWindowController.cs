@@ -37,7 +37,9 @@ namespace Mechavian.NodeService.UI
                     await vm.StopAll();
 
                     shutDown = true;
+#pragma warning disable 4014
                     window.Dispatcher.BeginInvoke(new Action(window.Close));
+#pragma warning restore 4014
                 };
 
                 window.ShowDialog();

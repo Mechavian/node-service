@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>node-service</id>
+        <version>$version$</version>
+        <title>Node Service</title>
+        <authors>Mechavian Inc.</authors>
+        <projectUrl>https://github.com/Mechavian/node-service</projectUrl>
+        <requireLicenseAcceptance>true</requireLicenseAcceptance>
+        <licenseUrl>https://raw.githubusercontent.com/Mechavian/node-service/master/LICENSE</licenseUrl>
+        <summary>
+            Extension on ServiceBase that allows for easy execution in both UI or as a Windows Service.
+        </summary>
+        <description>
+            <![CDATA[
+            Classes to more easily develop and debug ServiceBase elements for use on Windows Servers or virtual machines. Includes UI for visualizing the service when running in a user interactive mode and displays logs per service when using Log4Net.
+            ]]>
+        </description>
+        <copyright>Copyright 2014 Mechavian Inc</copyright>
+        <language>en-US</language>
+        <iconUrl>https://www.mechavian.com/img/fi/favicon-32x32.png</iconUrl>
+        <dependencies>
+            <dependency id="log4net" version="2.0.3" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="$OutputPath$Mechavian.NodeService.dll" target="lib\net40" />
+        <file src="$OutputPath$Mechavian.NodeService.UI.dll" target="lib\net40" />
+        <file src="$OutputPath$Mechavian.NodeService.pdb" target="lib\net40" />
+        <file src="$OutputPath$Mechavian.NodeService.UI.pdb" target="lib\net40" />
+    </files>
+</package>

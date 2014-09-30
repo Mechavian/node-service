@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using Mechavian.NodeService;
-using log4net;
+﻿using Mechavian.NodeService;
 using System.Threading;
 using System;
 
@@ -9,10 +7,6 @@ namespace NodeService.TestService
     public class MyTestService : NodeServiceBase
     {
         static Random rng = new Random();
-
-        public MyTestService()
-        {
-        }
 
         protected override void OnStarting(string[] args)
         {

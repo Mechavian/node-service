@@ -110,6 +110,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="node-service.nuspec" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -134,11 +135,17 @@
     <Error Condition="!Exists('..\..\packages\time-based-version.1.1.0.26862\build\time-based-version.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\time-based-version.1.1.0.26862\build\time-based-version.targets'))" />
   </Target>
   <Import Project="..\..\packages\time-based-version.1.1.0.26862\build\time-based-version.targets" Condition="Exists('..\..\packages\time-based-version.1.1.0.26862\build\time-based-version.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+  <Import Project="$(SolutionDir)\.build\MSBuild.Community.Tasks.Targets" />
+  <ItemGroup>
+    <MyAssemblies Include="$(OutputPath)Mechavian.NodeService.dll" />
+  </ItemGroup>
+  <Target Name="RetrieveIdentities">
+    <GetAssemblyIdentity AssemblyFiles="@(MyAssemblies)">
+      <Output TaskParameter="Assemblies" ItemName="OutputVersion" />
+    </GetAssemblyIdentity>
+    <Message Text="OutputVersion = %(OutputVersion.Version)" Importance="high" />
   </Target>
-  <Target Name="AfterBuild">
+  <Target Name="BuildNuGetPackage" DependsOnTargets="RetrieveIdentities" AfterTargets="Build">
+    <NuGetPack File="node-service.nuspec" OutputDirectory="$(OutputPath)" Properties="OutputPath=$(MSBuildProjectDirectory)\$(OutputPath);version=%(OutputVersion.Version)" WorkingDirectory="$(MSBuildProjectDirectory)" ToolPath="$(NuGetToolsPath)" />
   </Target>
-  -->
 </Project>
