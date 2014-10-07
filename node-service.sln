@@ -15,6 +15,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NodeService.UI", "src\NodeService.UI\NodeService.UI.csproj", "{71A54139-028B-4C24-9D7E-37DB6FC3BD5E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NodeService.TestService", "test\NodeService.TestService\NodeService.TestService.csproj", "{A6743971-F1B3-4573-BC03-CB546A37DDB9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{71A54139-028B-4C24-9D7E-37DB6FC3BD5E} = {71A54139-028B-4C24-9D7E-37DB6FC3BD5E}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NodeService.Test", "test\NodeService.Test\NodeService.Test.csproj", "{78035F67-18C0-498D-91AA-10F013CE0259}"
 EndProject

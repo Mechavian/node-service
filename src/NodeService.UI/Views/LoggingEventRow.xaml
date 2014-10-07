@@ -30,9 +30,15 @@
 
             <TextBlock Grid.Column="2"
                        Text="{Binding Message}"
-                       ToolTip="{Binding Message}"
                        VerticalAlignment="Top"
-                       TextWrapping="Wrap" />
+                       TextWrapping="NoWrap"
+                       TextTrimming="CharacterEllipsis">
+                <TextBlock.ToolTip>
+                    <TextBlock Text="{Binding Message}" 
+                               MaxWidth="600"
+                               TextWrapping="Wrap"/>
+                </TextBlock.ToolTip>
+            </TextBlock>
         </Grid>
     </Border>
 </UserControl>

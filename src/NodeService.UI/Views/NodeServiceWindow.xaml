@@ -4,8 +4,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:Mechavian.NodeService.UI.ViewModels"
         xmlns:views="clr-namespace:Mechavian.NodeService.UI.Views"
-        Title="NodeServiceWindow" 
-        Height="600" 
+        Title="NodeServiceWindow"
+        Height="600"
         Width="500">
     <Window.Resources>
         <ResourceDictionary>
@@ -14,15 +14,6 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Window.DataContext>
-        <vm:NodeServiceWindowViewModel>
-            <vm:NodeServiceWindowViewModel.Services>
-                <vm:NodeServiceViewModel DisplayName="My Test Service (1)"></vm:NodeServiceViewModel>
-                <vm:NodeServiceViewModel DisplayName="My Test Service (2)"></vm:NodeServiceViewModel>
-                <vm:NodeServiceViewModel DisplayName="My Test Service (3)"></vm:NodeServiceViewModel>
-            </vm:NodeServiceWindowViewModel.Services>
-        </vm:NodeServiceWindowViewModel>
-    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -33,17 +24,17 @@
         <Border Grid.Row="0"
                 Padding="3"
                 Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
-            <StackPanel 
-                    Orientation="Horizontal">
+            <StackPanel
+                Orientation="Horizontal">
                 <Button Content="Start All"
                         Command="{Binding StartAllCommand}" />
-                <Button Content="Stop All" 
+                <Button Content="Stop All"
                         Margin="5,0,0,0"
                         Command="{Binding StopAllCommand}" />
             </StackPanel>
         </Border>
-        
-        <ListBox x:Name="ServiceList"  
+
+        <ListBox x:Name="ServiceList"
                  Grid.Row="1"
                  MaxHeight="200"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -58,18 +49,15 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        
-        <ItemsControl Grid.Row="2"
-                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                      ScrollViewer.VerticalScrollBarVisibility="Auto"
-                      HorizontalContentAlignment="Stretch"
-                      VerticalAlignment="Stretch"
-                      ItemsSource="{Binding Path=SelectedItem.LoggingEvents, ElementName=ServiceList}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <views:LoggingEventRow />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+
+        <ScrollViewer Grid.Row="2">
+            <ItemsControl ItemsSource="{Binding Path=SelectedItem.LoggingEvents, ElementName=ServiceList}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <views:LoggingEventRow />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </Window>
