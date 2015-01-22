@@ -16,7 +16,7 @@
             Classes to more easily develop and debug ServiceBase elements for use on Windows Servers or virtual machines. Includes UI for visualizing the service when running in a user interactive mode and displays logs per service when using Log4Net.
             ]]>
         </description>
-        <copyright>Copyright 2014 Mechavian Inc</copyright>
+        <copyright>Copyright 2015 Mechavian Inc</copyright>
         <language>en-US</language>
         <iconUrl>https://www.mechavian.com/img/fi/favicon-32x32.png</iconUrl>
         <dependencies>
