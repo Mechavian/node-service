@@ -38,14 +38,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Mechavian.NodeService, Version=1.0.51007.905, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\node-service.1.0.51007.905\lib\net40\Mechavian.NodeService.dll</HintPath>
-    </Reference>
-    <Reference Include="Mechavian.NodeService.UI, Version=1.0.51007.905, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\node-service.1.0.51007.905\lib\net40\Mechavian.NodeService.UI.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -56,15 +48,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MyTestService.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="MyTestService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\NodeService.UI\NodeService.UI.csproj">
+      <Project>{71a54139-028b-4c24-9d7e-37db6fc3bd5e}</Project>
+      <Name>NodeService.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\NodeService\NodeService.csproj">
+      <Project>{065c9b18-250a-460d-bd4c-b4f5882ad020}</Project>
+      <Name>NodeService</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

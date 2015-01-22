@@ -52,6 +52,8 @@ namespace Mechavian.NodeService.UI.ViewModels
 
             UpdateStatusProperties();
             AttachAppender(service.Log);
+
+            Start();
         }
 
         public NodeServiceViewModel()
